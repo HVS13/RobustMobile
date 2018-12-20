@@ -3,8 +3,11 @@ package com.haluancorp.robustmobile.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +37,62 @@ SharedPreferences sharedPreferences;
 
         sharedPreferences = getSharedPreferences("Cookie", Context.MODE_PRIVATE);
 
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!"".equals(username.getText().toString()) && !"".equals(password.getText().toString())) {
+                    login.setTextColor(Color.parseColor("#FFFFFF"));
+                    login.setBackgroundResource(R.drawable.rounded_button_green);
+                    login.setClickable(true);
+                }
+                else {
+                    login.setTextColor(Color.parseColor("#AAAAAA"));
+                    login.setBackgroundResource(R.drawable.rounded_button_false);
+                    login.setClickable(false);
+                }
+
+
+            }
+        });
+
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!"".equals(username.getText().toString()) && !"".equals(password.getText().toString())) {
+                    login.setTextColor(Color.parseColor("#FFFFFF"));
+                    login.setBackgroundResource(R.drawable.rounded_button_green);
+                    login.setClickable(true);
+                }
+                else {
+                    login.setTextColor(Color.parseColor("#AAAAAA"));
+                    login.setBackgroundResource(R.drawable.rounded_button_false);
+                    login.setClickable(false);
+                }
+
+
+            }
+        });
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,12 +110,17 @@ SharedPreferences sharedPreferences;
                 @Override
                 public void onResponse(Call<Login> call, Response<Login> response) {
                     if (response.isSuccessful()) {
-                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                        startActivity(intent);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("Cookie", response.headers().get("Set-Cookie"));
-                        editor.apply();
-                        Toast.makeText(MainActivity.this, response.headers().get("Set-Cookie"), Toast.LENGTH_SHORT).show();
+                        if(response.body().getSuccess()) {
+                            Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                            startActivity(intent);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Cookie", response.headers().get("Set-Cookie"));
+                            editor.apply();
+                            Toast.makeText(MainActivity.this, response.headers().get("Set-Cookie"), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            Toast.makeText(MainActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
                     }
                 }
 

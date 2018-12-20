@@ -8,6 +8,9 @@ public class Login {
     @SerializedName("success")
     @Expose
     private Boolean success;
+    @SerializedName("message")
+    @Expose
+    private String message;
     @SerializedName("company")
     @Expose
     private String company;
@@ -37,6 +40,14 @@ public class Login {
 
     public Boolean getSuccess() {
         return success;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public void setSuccess(Boolean success) {

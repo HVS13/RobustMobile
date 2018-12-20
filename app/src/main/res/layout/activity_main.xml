@@ -6,33 +6,91 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
-    <ImageView
-        android:id="@+id/hrklogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/hrklogo"
-        android:layout_centerHorizontal="true"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/username"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/hrklogo"
-        android:hint="Username"/>
-    <EditText
-        android:id="@+id/pass"
-        android:inputType="textPassword"
-        android:layout_below="@id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"/>
-    <Button
-        android:id="@+id/login"
-        android:text="Login"
-        android:layout_below="@+id/pass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:alpha="0.9"
+            android:src="@drawable/background" />
+
+            <FrameLayout
+                android:layout_margin="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_shape">
+
+                <RelativeLayout
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/hrklogo"
+                    android:layout_marginBottom="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/hrklogo"
+                    android:layout_centerHorizontal="true"/>
+
+                <ImageView
+                    android:id="@+id/person"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_person_24"
+                    android:layout_below="@+id/hrklogo"
+                    android:layout_alignBottom="@+id/username"
+                    />
+
+                <EditText
+                    android:id="@+id/username"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/hrklogo"
+                    android:layout_toRightOf="@+id/person"
+                    android:hint="Username"/>
+
+                <ImageView
+                    android:id="@+id/lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_lock_24"
+                    android:layout_below="@id/username"
+                    android:layout_alignBottom="@+id/pass"
+                    />
+
+                <EditText
+                    android:id="@+id/pass"
+                    android:inputType="textPassword"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/username"
+                    android:layout_toRightOf="@id/lock"
+                    android:hint="Password"/>
+
+                <Button
+                    android:id="@+id/login"
+                    android:layout_marginBottom="20dp"
+                    android:text="Login"
+                    android:textColor="#AAAAAA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pass"
+                    android:background="@drawable/rounded_button_false"
+                    android:clickable="false"
+                    />
+
+                </RelativeLayout>
+
+            </FrameLayout>
+
+        </FrameLayout>
 
 </RelativeLayout>
