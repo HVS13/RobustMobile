@@ -111,12 +111,13 @@ SharedPreferences sharedPreferences;
                 public void onResponse(Call<Login> call, Response<Login> response) {
                     if (response.isSuccessful()) {
                         if(response.body().getSuccess()) {
-                            Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                            Intent intent = new Intent(MainActivity.this, ActivityDrawer.class);
                             startActivity(intent);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Cookie", response.headers().get("Set-Cookie"));
                             editor.apply();
                             Toast.makeText(MainActivity.this, response.headers().get("Set-Cookie"), Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                         else
                             Toast.makeText(MainActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

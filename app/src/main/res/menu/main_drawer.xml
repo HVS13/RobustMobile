@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/employeeSelfService"
+            android:title="Employee Self Service"/>
+        <item
+            android:id="@+id/personalInformation"
+            android:title="My Personal Information"/>
+        <item
+            android:id="@+id/workingInformation"
+            android:title="My Working Information"/>
+
+        <item
+            android:id="@+id/leaveInformation"
+            android:title="My Leave Information"/>
+
+        <item
+            android:id="@+id/leaveRequest"
+            android:title="My Leave Request"/>/>
+    </group>
+
+</menu>

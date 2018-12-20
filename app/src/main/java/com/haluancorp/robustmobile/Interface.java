@@ -1,6 +1,7 @@
 package com.haluancorp.robustmobile;
 
 import com.haluancorp.robustmobile.Object.Company;
+import com.haluancorp.robustmobile.Object.CurrentUserInformation;
 import com.haluancorp.robustmobile.Object.Login;
 
 import retrofit2.Call;
@@ -26,4 +27,9 @@ public interface Interface {
                           @Field("dform0") String dform0,
                           @Field("populate") Boolean populate,
                           @Header("Cookie") String cookie);
+
+    @FormUrlEncoded
+    @POST("servlet/manager")
+    Call<CurrentUserInformation> currentUserInformation(@Field("cmd") String cmd,
+                                                         @Header("Cookie") String cookie);
 }
