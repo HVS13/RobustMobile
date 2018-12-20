@@ -3,6 +3,8 @@ package com.haluancorp.robustmobile.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,9 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.haluancorp.robustmobile.Interface;
 import com.haluancorp.robustmobile.Object.Configs;
 import com.haluancorp.robustmobile.Object.CurrentUserInformation;
@@ -34,6 +38,7 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
     private AdvanceDrawerLayout drawer;
     SharedPreferences sharedPreferences;
     TextView nama, jabatan;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,8 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
                 if (response.isSuccessful()) {
                     nama.setText(response.body().getConfig().getUsername());
                     jabatan.setText(response.body().getConfig().getPosition());
-//                    Toast.makeText(Main2Activity.this, response.body().getTotalRows(), Toast.LENGTH_SHORT).show();
+//                    Glide.with(getBaseContext()).load("http://10.53.25.59" + response.body().getConfig().getUserlogo()).into(imageView);
+//                    Toast.makeText(ActivityDrawer.this, response.body().getTotalRows(), Toast.LENGTH_SHORT).show();
                 }
             }
 
