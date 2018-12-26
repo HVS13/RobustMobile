@@ -1,7 +1,6 @@
-package com.haluancorp.robustmobile.Activity;
+package com.haluancorp.robustmobile.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.haluancorp.robustmobile.Interface;
-import com.haluancorp.robustmobile.Object.Company;
+import com.haluancorp.robustmobile.object.Company;
 import com.haluancorp.robustmobile.R;
 import com.haluancorp.robustmobile.util.Helper;
 

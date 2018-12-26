@@ -1,8 +1,8 @@
 package com.haluancorp.robustmobile;
 
-import com.haluancorp.robustmobile.Object.Company;
-import com.haluancorp.robustmobile.Object.CurrentUserInformation;
-import com.haluancorp.robustmobile.Object.Login;
+import com.haluancorp.robustmobile.object.Company;
+import com.haluancorp.robustmobile.object.CurrentUserInformation;
+import com.haluancorp.robustmobile.object.Login;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

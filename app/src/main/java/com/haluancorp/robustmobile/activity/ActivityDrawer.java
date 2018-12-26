@@ -1,18 +1,20 @@
-package com.haluancorp.robustmobile.Activity;
+package com.haluancorp.robustmobile.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,14 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.haluancorp.robustmobile.Interface;
-import com.haluancorp.robustmobile.Object.Configs;
-import com.haluancorp.robustmobile.Object.CurrentUserInformation;
+import com.haluancorp.robustmobile.object.CurrentUserInformation;
 import com.haluancorp.robustmobile.R;
 import com.haluancorp.robustmobile.util.Helper;
 import com.infideap.drawerbehavior.AdvanceDrawerLayout;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +51,7 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
         View headerView = headerLayout.getHeaderView(0);
         nama = headerView.findViewById(R.id.nama);
         jabatan = headerView.findViewById(R.id.jabatan);
+        imageView = headerView.findViewById(R.id.imageView);
 
         setDrawer();
 
@@ -63,13 +64,20 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
         Interface inter = Helper.getClient().create(Interface.class);
         Call<CurrentUserInformation> call = inter.currentUserInformation(cmd, cookie);
         call.enqueue(new Callback<CurrentUserInformation>() {
+            @SuppressLint("CheckResult")
             @Override
             public void onResponse(Call<CurrentUserInformation> call, Response<CurrentUserInformation> response) {
                 if (response.isSuccessful()) {
                     nama.setText(response.body().getConfig().getUsername());
                     jabatan.setText(response.body().getConfig().getPosition());
-//                    Glide.with(getBaseContext()).load("http://10.53.25.59" + response.body().getConfig().getUserlogo()).into(imageView);
-//                    Toast.makeText(ActivityDrawer.this, response.body().getTotalRows(), Toast.LENGTH_SHORT).show();
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.placeholder(R.drawable.malenophoto).error(R.drawable.malenophoto);
+//                    requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+//                    requestOptions.bitmapTransform(new RoundedCorners(150));
+
+                    String url = "http://10.53.25.59" + response.body().getConfig().getUserlogo();
+                    Glide.with(getBaseContext()).load(url).apply(requestOptions).into(imageView);
+//                    Toast.makeText(ActivityDrawer.this, url, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -84,10 +92,8 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         drawer = findViewById(R.id.drawer_layout);
 
-        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -100,7 +106,26 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
         drawer.setRadius(Gravity.START, 35);
         drawer.setViewElevation(Gravity.START, 20);
 
+        navigationView.getMenu().setGroupVisible(R.id.groupESS, false);
+
         displaySelectedScreen(R.id.employeeSelfService);
+    }
+
+    private void showSubMenu(int itemId) {
+        NavigationView nv = findViewById(R.id.nav_view);
+        Menu m = nv.getMenu();
+
+        switch (itemId) {
+            case R.id.employeeSelfService:
+//                boolean b=!m.findItem(R.id.personalInformation).isVisible();
+//                m.findItem(R.id.personalInformation).setVisible(b);
+//                m.findItem(R.id.workingInformation).setVisible(b);
+//                m.findItem(R.id.leaveInformation).setVisible(b);
+//                m.findItem(R.id.leaveRequest).setVisible(b);
+                boolean b=!m.findItem(R.id.personalInformation).isVisible();
+                m.setGroupVisible(R.id.groupESS, b);
+                break;
+        }
     }
 
     private void displaySelectedScreen(int itemId) {
@@ -110,17 +135,20 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
 //        TextView title = findViewById(R.id.toolbarTitle);
 //        RelativeLayout nTitle = findViewById(R.id.wrapperToolbar);
 
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         //initializing the fragment object which is selected
         switch (itemId) {
-            case R.id.employeeSelfService:
-                break;
             case R.id.personalInformation:
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.workingInformation:
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.leaveInformation:
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.leaveRequest:
+                drawer.closeDrawer(GravityCompat.START);
                 break;
         }
 
@@ -130,17 +158,37 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
 //            ft.commit();
 //        }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        showSubMenu(item.getItemId());
         displaySelectedScreen(item.getItemId());
-//        drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            new AlertDialog.Builder(this)
+                    .setMessage("Do you want to exit?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            finishAffinity();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
     }
 }

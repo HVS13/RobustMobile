@@ -13,16 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme2">
         <activity
-            android:name=".Activity.MainActivity"
-            android:theme="@style/AppTheme">
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Main2Activity" />
-        <activity android:name=".Activity.ActivityDrawer"></activity>
+        <activity android:name=".activity.Main2Activity" />
+        <activity android:name=".activity.ActivityDrawer"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.haluancorp.robustmobile.Object;
+package com.haluancorp.robustmobile.object;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

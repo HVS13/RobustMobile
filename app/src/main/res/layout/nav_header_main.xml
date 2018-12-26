@@ -14,7 +14,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="50dp"
-        android:src="@drawable/malenophoto" />
+        android:src="@drawable/malenophoto"
+        />
 
         <TextView
             android:id="@+id/welcome"
