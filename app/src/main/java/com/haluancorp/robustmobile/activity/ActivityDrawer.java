@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.haluancorp.robustmobile.Interface;
+import com.haluancorp.robustmobile.fragment.LeaveInformation;
 import com.haluancorp.robustmobile.object.CurrentUserInformation;
 import com.haluancorp.robustmobile.R;
 import com.haluancorp.robustmobile.util.Helper;
@@ -37,8 +41,8 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
 
     private AdvanceDrawerLayout drawer;
     SharedPreferences sharedPreferences;
-    TextView nama, jabatan;
-    ImageView imageView;
+    TextView nama, jabatan, company;
+    ImageView imageView, companyLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
         nama = headerView.findViewById(R.id.nama);
         jabatan = headerView.findViewById(R.id.jabatan);
         imageView = headerView.findViewById(R.id.imageView);
+//        company = includedLayout.findViewById(R.id.companyName);
+//        companyLogo = includedLayout.findViewById(R.id.companyLogo);
 
         setDrawer();
 
@@ -70,13 +76,18 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
                 if (response.isSuccessful()) {
                     nama.setText(response.body().getConfig().getUsername());
                     jabatan.setText(response.body().getConfig().getPosition());
+//                    company.setText(response.body().getConfig().getCompany());
+//                    company.setTypeface(null, Typeface.BOLD);
+
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.placeholder(R.drawable.malenophoto).error(R.drawable.malenophoto);
 //                    requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
 //                    requestOptions.bitmapTransform(new RoundedCorners(150));
 
                     String url = "http://10.53.25.59" + response.body().getConfig().getUserlogo();
+//                    String urlLogo = "http://10.53.25.59" + response.body().getConfig().getCompanylogo();
                     Glide.with(getBaseContext()).load(url).apply(requestOptions).into(imageView);
+//                    Glide.with(getBaseContext()).load(urlLogo).apply(requestOptions).into(companyLogo);
 //                    Toast.makeText(ActivityDrawer.this, url, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -135,7 +146,9 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
 //        TextView title = findViewById(R.id.toolbarTitle);
 //        RelativeLayout nTitle = findViewById(R.id.wrapperToolbar);
 
+        Fragment fragment;
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         //initializing the fragment object which is selected
         switch (itemId) {
             case R.id.personalInformation:
@@ -145,19 +158,21 @@ public class ActivityDrawer extends AppCompatActivity implements NavigationView.
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.leaveInformation:
-                drawer.closeDrawer(GravityCompat.START);
+                fragment = new LeaveInformation();
+                changeFragment(ft, fragment, drawer);
                 break;
             case R.id.leaveRequest:
                 drawer.closeDrawer(GravityCompat.START);
                 break;
         }
 
-//        if (fragment != null) {
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.replace(R.id.content_frame, fragment);
-//            ft.commit();
-//        }
+    }
 
+    private void changeFragment(FragmentTransaction ft, Fragment fragment, DrawerLayout drawer) {
+            if (fragment != null) {
+            ft.replace(R.id.content_frame, fragment).commit();
+            }
+            drawer.closeDrawer(GravityCompat.START);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
